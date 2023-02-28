@@ -1,21 +1,45 @@
 <template>
- 
   <div class="container">
-    <h2 class="title">My Simple Calculator</h2>
     <div class="calc">
+     
+      <div class="result">
+        <p>{{ result || 0 }}</p> <p>{{ resultcalc }}</p>
+      </div>
     <div class="number">
-     <input type="number" class="input" v-model=number1  />
-     <input type="number" class="input" v-model=number2 />
-     <div class="result">{{ result || '0' }}</div>
+    <div class="row-1">
+      <button @click="clear">AC</button>
+      <button @click="del">DEL</button>
+      <button @click="percent">%</button>
+      <button @click="append('/')">/</button>
+
     </div>
-     <div class="operator">
-      <input type="button"  value="C" class="btn" @click="clear" />
-      <input type="button"  value="+" class="btn" @click="sum" />
-      <input type="button"  value="-" class="btn" @click="sub"/>
-      <input type="button"  value="*" class="btn" @click="mult"/>
-      <input type="button"  value="/" class="btn" @click="div"/>
-     </div>
+    <div class="row-2">
+      <button @click="append('7')">7</button>
+      <button @click="append('8')" >8</button>
+      <button @click="append('9')" >9</button>
+      <button @click="append('*')">*</button>
     </div>
+    <div class="row-3">
+      <button @click="append('4')" >4</button>
+      <button @click="append('5')" >5</button>
+      <button @click="append('6')" >6</button>
+      <button @click="append('-')">-</button>
+      </div>
+    <div class="row-4">
+      <button @click="append('1')">1</button>
+      <button @click="append('2')">2</button>
+      <button @click="append('3')"  >3</button>
+      <button @click="append('+')">+</button>
+      </div>
+    <div class="row-5">
+      <button @click="append('00')" >00</button>
+      <button @click="append('0')"  >0</button>
+      <button @click="dot">,</button>
+      <button @click="calc">=</button>
+    </div>
+    </div>
+    
+  </div>
   </div>
 </template>
   
@@ -23,81 +47,216 @@
 export default {
 data(){
   return{
+    resultcalc:'',
     result:'',
-    number1:null,
-    number2:null,
+    previos:'',
   }
 },
 methods: {
   clear(){
     this.result=''; 
-    this.number1='';
-    this.number2='';
+    this.resultcalc='';
+
   },
-  sum(){
-     this.result= this.number1|this.number2;   
+  del(){
+    this.result=this.result.slice(0,-1);
+    },
+  calc(){
+    this.previos = this.result ;
+    this.resultcalc=eval(`${this.result}`);
+    this.calc=this.resultcalc
   },
-  sub(){
-    this.result= this.number1-this.number2;
+  percent(){
+    this.result=`${parseFloat(this.result)/100}`;
   },
-  mult(){
-    this.result= this.number1*this.number2;
+  append(num){
+     this.result = this.result + num;
   },
-  div(){
-    this.result= this.number1/this.number2;
+  dot(){
+    if (this.result.indexOf(',') === -1){
+      this.append(',');
+    }
   },
  }
 }
 </script>
 
 <style>
-.title{
-  padding: 20px;
-  color: rgba(150, 83, 44, 0.904);
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 3.5rem;
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: rgb(23, 34, 59);
+  font-family: tahoma;
+
 }
-.number{
-margin-top: 50px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 25px;
+button{
+  cursor: pointer;
+}
+.container{
+ width: 100%;
+ height: 100%;
 }
 .calc{
-display: flex;
-justify-content: center;
-align-items: center;
-gap:50px;
-}
-.input{
- padding: 10px 100px;
- border: 1px solid rgb(177, 111, 56);
- border-radius: 7px;
- color: rgb(177, 111, 56);
-}
-.operator{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 2px;
-}
-.btn{
-  width:50px;
-  padding: 10px;
-  background-color: rgb(177, 111, 56) ;
-  border: none;
+  border: 1px solid rgb(30, 30, 253);
   border-radius: 7px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: rgb(255, 225, 186);
+  width: 350px;
+  height:560px;
+  margin: 0 auto;
+  display: flex ;
+  flex-direction:column ;
+  justify-content: flex-start;
+  align-items: center;
+  gap:7px;
+  background-color: rgb(10, 15, 27);
+
 }
 .result{
-  border: 1px solid rgb(177, 111, 56);
+  display: flex ;
+  justify-content:  flex-end;
+  align-items:  flex-end;
   border-radius: 7px;
-  padding: 10px 50px;
-  color:rgb(177, 111, 56) ;
+  width: 335px;
+  height: 170px;
+  margin: 7px 7px;
+  background-color:rgb(23, 34, 59) ;
 }
+.result p{
+  color:#fff;
+  font-size: 2.5rem;
+  font-weight: 400;
+  padding: 10px;
+}
+.number{
+  width:340px;
+  height:368px;
+  border-radius: 7px;
+  background-color: rgb(10, 15, 27);
+  
+}
+.number .row-1{
+  background-color: rgb(10, 15, 27);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 5px;
+  
+}
+.number .row-1 button{
+  width:75px ;
+  height:65px;
+  border: none;
+  background-color:rgb(23, 34, 59) ;
+  border-radius:7px;
+  color:#fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in;
+
+}
+.number .row-1 button:hover{
+  background-color:rgb(59, 87, 153) ;
+  border: 1px solid rgb(30, 30, 253) ;
+}
+.number .row-2{
+  background-color: rgb(10, 15, 27);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 7px; */
+  margin: 7px 5px;
+
+}
+.number .row-2 button{
+  width:75px ;
+  height:65px;
+  border: none;
+  background-color:rgb(23, 34, 59) ;
+  border-radius:7px;
+  color:#fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in;
+}
+.number .row-2 button:hover{
+  background-color:rgb(59, 87, 153) ;
+  border: 1px solid rgb(30, 30, 253) ;
+}
+.number .row-3{
+  background-color: rgb(10, 15, 27);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 7px; */
+  margin: 7px 5px;
+
+}
+.number .row-3 button:hover{
+  background-color:rgb(59, 87, 153) ;
+  border: 1px solid rgb(30, 30, 253) ;
+}
+.number .row-3 button{
+  width:75px ;
+  height:65px;
+  border: none;
+  background-color:rgb(23, 34, 59) ;
+  border-radius:7px;
+  color:#fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in;
+
+}
+.number .row-4{
+  background-color: rgb(10, 15, 27);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 7px; */
+  margin: 7px 5px;
+
+}
+
+.number .row-4 button{
+  width:75px ;
+  height:65px;
+  border: none;
+  background-color:rgb(23, 34, 59) ;
+  border-radius:7px;
+  color:#fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in;
+
+}
+.number .row-4 button:hover{
+  background-color:rgb(59, 87, 153) ;
+  border: 1px solid rgb(30, 30, 253) ;
+}
+.number .row-5{
+  background-color: rgb(10, 15, 27);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 7px; */
+  margin: 7px 5px;
+
+}
+.number .row-5 button{
+  width:75px ;
+  height:65px;
+  border: none;
+  background-color:rgb(23, 34, 59) ;
+  border-radius:7px;
+  color:#fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in;
+
+}
+.number .row-5 button:hover{
+  background-color:rgb(59, 87, 153) ;
+  border: 1px solid rgb(30, 30, 253) ;
+}
+
 </style>
